@@ -1,15 +1,12 @@
 from flask import Flask, request, render_template, send_file
 from PIL import Image
 import pytesseract
-import os
 
 app = Flask(__name__)
 
 # Temporary storage for extracted text
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 last_extracted_text = None
-UPLOAD_FOLDER = "uploads"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -21,7 +18,7 @@ def index():
         file = request.files["image"]
         if file:
             # Save uploaded image
-            filepath = os.path.join(UPLOAD_FOLDER, file.filename)
+            filepath =  file.filename
             file.save(filepath)
 
             # OCR with pytesseract
@@ -52,3 +49,4 @@ def download():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
